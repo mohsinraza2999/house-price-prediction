@@ -1,0 +1,3 @@
+checkpoints:
+  model: house_model
+  optimizer: model_optimizer

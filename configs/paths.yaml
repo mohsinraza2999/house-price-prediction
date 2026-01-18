@@ -1,0 +1,12 @@
+model:
+  path: "models/checkpoints"
+  name: "house_model.pt"
+
+
+process_data:
+  path: "data/processed"
+  name: "processed_data.csv"
+
+raw_data:
+  path: "data/raw"
+  name: "housing.csv"

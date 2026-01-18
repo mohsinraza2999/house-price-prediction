@@ -1,0 +1,5 @@
+dataconfig:
+  target_col: "MEDV"
+  val_ratio: 0.2
+  seed: 42
+  batch_size: 32
