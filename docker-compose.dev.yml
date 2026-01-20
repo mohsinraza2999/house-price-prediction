@@ -1,0 +1,12 @@
+version: "3.9"
+
+services:
+  backend:
+    build:
+      context: .
+      target: production
+    volumes:
+      - .:/app
+    command: uvicorn src.routes.router:app --host 0.0.0.0 --port 8000 --reload
+    environment:
+      ENV: development
