@@ -8,5 +8,5 @@ __pycache__
 .venv
 venv
 notebooks
-data
+data/processed/processed_data.csv
 models
