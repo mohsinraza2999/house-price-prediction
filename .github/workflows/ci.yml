@@ -6,6 +6,21 @@ on:
   pull_request:
 
 jobs:
+
+  
+  docker-test:
+    name: Run tests inside Docker
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build test image
+        run: docker build --target test -t app-test .
+
+      - name: Run tests
+        run: docker run --rm app-test
+
   docker-build:
     name: Build Docker Image
     runs-on: ubuntu-latest
@@ -24,19 +39,3 @@ jobs:
             --target production \
             -t dl-project:latest \
             .
-
-  docker-test:
-    name: Run tests inside Docker
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Build test image
-        run: docker build --target test -t app-test .
-
-      - name: Run tests
-        run: docker run --rm app-test
-
-
-  
