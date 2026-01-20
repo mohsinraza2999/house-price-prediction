@@ -7,7 +7,6 @@ on:
 
 jobs:
 
-  
   docker-test:
     name: Run tests inside Docker
     runs-on: ubuntu-latest
@@ -24,7 +23,7 @@ jobs:
   docker-build:
     name: Build Docker Image
     runs-on: ubuntu-latest
-    needs: test
+    needs: docker-test
 
     steps:
       - name: Checkout code
