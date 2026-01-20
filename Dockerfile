@@ -11,17 +11,19 @@ WORKDIR /app
 # System deps (minimal)
 RUN apt-get update && apt-get install -y \
     build-essential \
-    curl \
+    python3-dev \
+    gcc \
+    libffi-dev \
     && rm -rf /var/lib/apt/lists/*
+#    curl \
 
-
+RUN pip install --upgrade pip setuptools wheel
 # =========================
 # Dependencies stage
 # =========================
 FROM base AS deps
 
 COPY requirements.txt .
-RUN pip install --upgrade pip
 RUN pip install --no-cache-dir -r requirements.txt
 
 
