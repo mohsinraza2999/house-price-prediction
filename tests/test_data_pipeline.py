@@ -3,6 +3,7 @@ import sys, os
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from src.data_pipeline import data_preparation
 import pandas as pd
+from pathlib import Path
 
 class DataProcessing(unittest.TestCase):
     def setUp(self)-> None:
@@ -12,7 +13,7 @@ class DataProcessing(unittest.TestCase):
 
     def test_read(self)->None:
 
-        read_object=data_preparation.Readcsv(self.path)
+        read_object=data_preparation.Readcsv(Path(self.path))
         data=read_object.read(self.name)
         self.assertIsNotNone(data,"Data is None")
         self.assertEqual(data.__class__,pd.DataFrame,"The Data is not Pandas Series")
