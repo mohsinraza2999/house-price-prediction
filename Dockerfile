@@ -36,7 +36,12 @@ RUN pip install --no-cache-dir /wheels/*
 COPY . .
 
 # Tests only — no server startup
-CMD ["python", "-m", "unittest", "discover", "-s", "tests", "-p", "test_*.py"]
+#CMD ["python", "-m", "unittest", "discover", "-s", "tests", "-p", "test_*.py"]
+CMD ["sh", "-c", "\
+    uvicorn src.routes.router:app --host 0.0.0.0 --port 8000 & \
+    sleep 5 && \
+    python -m unittest discover -s tests \
+"]
 
 # =========================
 # Production image
