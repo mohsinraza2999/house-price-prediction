@@ -4,9 +4,12 @@ services:
   backend:
     build:
       context: .
-      target: production
+      target: test
     volumes:
-      - .:/app
+      - ./src:/app/src
+      - ./tests:/app/tests
     command: uvicorn src.routes.router:app --host 0.0.0.0 --port 8000 --reload
+    ports:
+      - "8000:8000"
     environment:
-      ENV: development
+      APP_ENV: development
