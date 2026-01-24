@@ -8,7 +8,7 @@ services:
     volumes:
       - ./src:/app/src
       - ./tests:/app/tests
-    command: py src/cli.py route
+    command: python src/cli.py route
     ports:
       - "8000:8000"
     environment:
