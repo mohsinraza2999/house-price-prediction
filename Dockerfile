@@ -38,9 +38,9 @@ COPY . .
 # Tests only — no server startup
 #CMD ["python", "-m", "unittest", "discover", "-s", "tests", "-p", "test_*.py"]
 CMD ["sh", "-c", "\
-    uvicorn src.routes.router:app --host 0.0.0.0 --port 8000 & \
+    py src/cli.py route & \
     sleep 5 && \
-    python -m unittest discover -s tests \
+    python -m unittest discover -s tests -p test_*.py\
 "]
 
 # =========================
