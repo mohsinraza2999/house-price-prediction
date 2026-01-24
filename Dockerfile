@@ -38,7 +38,7 @@ COPY . .
 # Tests only — no server startup
 #CMD ["python", "-m", "unittest", "discover", "-s", "tests", "-p", "test_*.py"]
 CMD ["sh", "-c", "\
-    py src/cli.py route & \
+    python src/cli.py route & \
     sleep 5 && \
     python -m unittest discover -s tests -p test_*.py\
 "]
@@ -60,7 +60,7 @@ COPY . .
 USER app
 
 EXPOSE 8000
-CMD ["py","src/cli.py","route"]
+CMD ["python","src/cli.py","route"]
 # Add a healthcheck to verify FastAPI is responding
 #HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
 #  CMD curl --fail http://127.0.0.1:8000/ || exit 1
