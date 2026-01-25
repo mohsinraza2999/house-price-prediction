@@ -20,21 +20,24 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     python3-dev \
     && rm -rf /var/lib/apt/lists/*
 
-
+# Copy only what is needed
+COPY pyproject.toml /app/
+COPY src /app/src
+COPY configs /app/configs
 #COPY requirements.txt .
 
+# Build wheels, Install project in editable mode + PyTorch CPU
 
+RUN pip install --upgrade pip \
+    && pip wheel --no-cache-dir --extra-index-url https://download.pytorch.org/whl/cpu . -w /wheels
 
 # =========================
 # Test image
 # =========================
 FROM base AS test
 
-COPY . /app
-# Install project in editable mode + PyTorch CPU
-RUN pip install --upgrade pip \
-    && pip install --no-cache-dir --extra-index-url https://download.pytorch.org/whl/cpu -e .
-
+# Install dev dependencies
+COPY requirements-dev.txt /app/
 RUN pip install --no-cache-dir -r requirements-dev.txt
 
 COPY --from=builder /wheels /wheels
@@ -58,14 +61,8 @@ FROM base AS production
 # Create non-root user
 RUN addgroup --system app && adduser --system --ingroup app app
 
-# Copy only what is needed
-COPY pyproject.toml /app/
-COPY src /app/src
-COPY configs /app/configs
-
 COPY --from=builder /wheels /wheels
-RUN pip wheel --no-cache-dir --extra-index-url https://download.pytorch.org/whl/cpu . -w /wheels \
-    && pip install --no-cache-dir /wheels/* \
+RUN pip install --no-cache-dir /wheels/* \
     && rm -rf /wheels
 
 USER app
