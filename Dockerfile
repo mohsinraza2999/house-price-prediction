@@ -43,6 +43,7 @@ RUN pip install --no-cache-dir -r requirements-dev.txt
 COPY --from=builder /wheels /wheels
 RUN pip install --no-cache-dir /wheels/*
 
+COPY data /app/data
 COPY tests /app/tests
 
 # Tests only — no server startup

@@ -1,7 +1,7 @@
 # ----------------------
-# Testing
+# Testing 
 # ----------------------
-pytest
+pytest              # if using pytest
 pytest-cov
 pytest-asyncio
 httpx              # for testing FastAPI routes
