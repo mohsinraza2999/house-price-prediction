@@ -23,9 +23,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 #COPY requirements.txt .
 
-# Install project in editable mode + PyTorch CPU
-RUN pip install --upgrade pip \
-    && pip install --no-cache-dir --extra-index-url https://download.pytorch.org/whl/cpu -e .
+
 
 # =========================
 # Test image
@@ -33,9 +31,10 @@ RUN pip install --upgrade pip \
 FROM base AS test
 
 COPY . /app
+# Install project in editable mode + PyTorch CPU
+RUN pip install --upgrade pip \
+    && pip install --no-cache-dir --extra-index-url https://download.pytorch.org/whl/cpu -e .
 
-# Install dev dependencies
-COPY requirements-dev.txt /app/
 RUN pip install --no-cache-dir -r requirements-dev.txt
 
 COPY --from=builder /wheels /wheels
