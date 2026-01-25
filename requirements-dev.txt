@@ -1,0 +1,24 @@
+# ----------------------
+# Testing
+# ----------------------
+pytest
+pytest-cov
+pytest-asyncio
+httpx              # for testing FastAPI routes
+
+# ----------------------
+# Linting & formatting
+# ----------------------
+black
+isort
+flake8
+
+# ----------------------
+# Type checking
+# ----------------------
+mypy
+
+# ----------------------
+# Optional dev tools
+# ----------------------
+pre-commit

@@ -13,30 +13,38 @@ WORKDIR /app
 # =========================
 FROM base AS builder
 
+
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     gcc \
     python3-dev \
-    libffi-dev \
-    libssl-dev \
     && rm -rf /var/lib/apt/lists/*
 
-COPY requirements.txt .
+
+#COPY requirements.txt .
+
+# Install project in editable mode + PyTorch CPU
 RUN pip install --upgrade pip \
-    && pip wheel --no-cache-dir --no-deps -r requirements.txt -w /wheels
+    && pip install --no-cache-dir --extra-index-url https://download.pytorch.org/whl/cpu -e .
 
 # =========================
 # Test image
 # =========================
 FROM base AS test
 
+COPY . /app
+
+# Install dev dependencies
+COPY requirements-dev.txt /app/
+RUN pip install --no-cache-dir -r requirements-dev.txt
+
 COPY --from=builder /wheels /wheels
 RUN pip install --no-cache-dir /wheels/*
 
-COPY . .
+COPY tests /app/tests
 
 # Tests only — no server startup
-#CMD ["python", "-m", "unittest", "discover", "-s", "tests", "-p", "test_*.py"]
+#CMD ["pytest", "-q"]
 CMD ["sh", "-c", "\
     uvicorn src.routes.router:app --host 0.0.0.0 --port 8000 & \
     sleep 5 && \
@@ -51,11 +59,15 @@ FROM base AS production
 # Create non-root user
 RUN addgroup --system app && adduser --system --ingroup app app
 
-COPY --from=builder /wheels /wheels
-RUN pip install --no-cache-dir /wheels/* \
-    && rm -rf /wheels
+# Copy only what is needed
+COPY pyproject.toml /app/
+COPY src /app/src
+COPY configs /app/configs
 
-COPY . .
+COPY --from=builder /wheels /wheels
+RUN pip wheel --no-cache-dir --extra-index-url https://download.pytorch.org/whl/cpu . -w /wheels \
+    && pip install --no-cache-dir /wheels/* \
+    && rm -rf /wheels
 
 USER app
 
