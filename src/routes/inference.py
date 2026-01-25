@@ -1,5 +1,5 @@
 #from src.utils.utils import inference_mode
-from models.definitions.house_model import HousePricesModel
+from src.models.definitions.house_model import HousePricesModel
 import torch
 from pathlib import Path
 

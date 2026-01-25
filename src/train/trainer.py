@@ -1,7 +1,7 @@
 import torch
 from torch.utils.data import DataLoader
 from typing import Dict, Optional, Callable
-from models.definitions.base_model import PyTorchModel
+from src.models.definitions.base_model import PyTorchModel
 from src.utils.logs import logger
 from src.utils import metrics_utils
 

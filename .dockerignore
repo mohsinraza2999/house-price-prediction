@@ -11,4 +11,4 @@ node_modules
 tests/__pycache__
 notebooks
 data/processed/processed_data.csv
-models
+models/checkpoints/house_model.pt

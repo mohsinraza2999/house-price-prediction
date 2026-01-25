@@ -5,7 +5,7 @@ from torch.utils.data import DataLoader
 from dataclasses import dataclass
 from src.utils.logs import logger
 from src.utils import config_utils
-from models.definitions.house_model import HousePricesModel
+from src.models.definitions.house_model import HousePricesModel
 from src.data_pipeline import data_loader
 
 
